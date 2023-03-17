@@ -141,7 +141,7 @@ material-dashboard-react
     │   │   ├── Sidenav
     │   │   ├── Tables
     │   │   └── Timeline
-    │   ├── layouts
+    │   ├── pages
     │   │   ├── authentication
     │   │   ├── billing
     │   │   ├── dashboard
