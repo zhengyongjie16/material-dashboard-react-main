@@ -37,7 +37,6 @@ import OrdersOverview from "pages/dashboard/components/OrdersOverview";
 import { useEffect } from "react";
 import { useGetWeatherMutation } from "../../redux/services/weather/weather";
 import { useGetMoviesMutation } from "../../redux/services/moviesDatabase/moviesDatabase";
-import { Chat } from "@mui/icons-material";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
