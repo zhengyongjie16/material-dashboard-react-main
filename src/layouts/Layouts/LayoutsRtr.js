@@ -17,15 +17,13 @@ import theme from "assets/theme";
 // Material Dashboard 2 React Dark Mode themes
 import themeDark from "assets/theme-dark";
 
-// Material Dashboard 2 React routes
-import routes from "routes";
-
 // Images
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 import MDBox from "components/MDBox";
 import { Icon } from "@mui/material";
+import sideRouters from "../../sideRouters";
 
 // eslint-disable-next-line react/prop-types
 function LayoutsRtr({ children }) {
@@ -106,7 +104,7 @@ function LayoutsRtr({ children }) {
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName="Material Dashboard 2"
-            routes={routes}
+            routes={sideRouters}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />

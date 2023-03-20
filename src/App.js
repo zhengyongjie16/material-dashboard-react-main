@@ -24,10 +24,42 @@ import { useMaterialUIController } from "context";
 
 import LayoutsRtl from "layouts/Layouts/LayoutsRtl";
 import LayoutsRtr from "layouts/Layouts/LayoutsRtr";
+import weatherApi from "redux/services/test/weather";
+import axios from "axios";
+import { useEffect } from "react";
 
 export default function App() {
   const [controller] = useMaterialUIController();
   const { direction } = controller;
+  const { data } = weatherApi.useGetWeatherQuery();
+  console.log("data", data);
+
+  const options = {
+    method: "GET",
+    url: "https://visual-crossing-weather.p.rapidapi.com/forecast",
+    params: {
+      aggregateHours: "24",
+      location: "Washington,DC,USA",
+      contentType: "csv",
+      unitGroup: "us",
+      shortColumnNames: "0",
+    },
+    headers: {
+      "X-RapidAPI-Key": "df9b2b7a64msh4330bf62623b01ap18f674jsnf4e7386c953c",
+      "X-RapidAPI-Host": "visual-crossing-weather.p.rapidapi.com",
+    },
+  };
+
+  useEffect(() => {
+    axios
+      .request(options)
+      .then((response) => {
+        console.log("data", response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {

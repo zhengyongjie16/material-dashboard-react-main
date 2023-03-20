@@ -14,6 +14,7 @@ Coded by www.creative-tim.com
 */
 
 import { useState } from "react";
+import { Formik } from "formik";
 
 // react-router-dom components
 import { Link, useNavigate } from "react-router-dom";
@@ -40,12 +41,22 @@ import BasicLayout from "pages/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
+import * as Yup from "yup";
 
 function Basic() {
   const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const initValues = {
+    username: "",
+    password: "",
+  };
+
+  const validationSchema = Yup.object({
+    username: Yup.string().required(),
+    password: Yup.string().required(),
+  });
 
   return (
     <BasicLayout image={bgImage}>
@@ -82,53 +93,81 @@ function Basic() {
             </Grid>
           </Grid>
         </MDBox>
-        <MDBox pt={4} pb={3} px={3}>
-          <MDBox component="form" role="form">
-            <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
-            </MDBox>
-            <MDBox display="flex" alignItems="center" ml={-1}>
-              <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-              <MDTypography
-                variant="button"
-                fontWeight="regular"
-                color="text"
-                onClick={handleSetRememberMe}
-                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-              >
-                &nbsp;&nbsp;Remember me
-              </MDTypography>
-            </MDBox>
-            <MDBox mt={4} mb={1}>
-              <MDButton
-                variant="gradient"
-                color="info"
-                fullWidth
-                onClick={() => navigate("/dashboard")}
-              >
-                sign in
-              </MDButton>
-            </MDBox>
-            <MDBox mt={3} mb={1} textAlign="center">
-              <MDTypography variant="button" color="text">
-                Don&apos;t have an account?{" "}
-                <MDTypography
-                  component={Link}
-                  to="/authentication/sign-up"
-                  variant="button"
-                  color="info"
-                  fontWeight="medium"
-                  textGradient
-                >
-                  Sign up
-                </MDTypography>
-              </MDTypography>
-            </MDBox>
-          </MDBox>
-        </MDBox>
+
+        <Formik initialValues={initValues} validationSchema={validationSchema}>
+          {({ values, handleChange, handleBlur, isValid }) => {
+            console.log(isValid, values);
+            return (
+              <MDBox pt={4} pb={3} px={3}>
+                <MDBox component="form" role="form">
+                  <MDBox mb={2}>
+                    <MDInput
+                      name="username"
+                      type="text"
+                      label="Email or User Name"
+                      fullWidth
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.username}
+                    />
+                  </MDBox>
+                  <MDBox mb={2}>
+                    <MDInput
+                      name="password"
+                      type="password"
+                      label="Password"
+                      fullWidth
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                    />
+                  </MDBox>
+                  <MDBox display="flex" alignItems="center" ml={-1}>
+                    <Switch checked={rememberMe} onChange={handleSetRememberMe} />
+                    <MDTypography
+                      variant="button"
+                      fontWeight="regular"
+                      color="text"
+                      onClick={handleSetRememberMe}
+                      sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
+                    >
+                      &nbsp;&nbsp;Remember me
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox mt={4} mb={1}>
+                    <MDButton
+                      variant="gradient"
+                      color="info"
+                      fullWidth
+                      disabled={!isValid}
+                      onClick={() => {
+                        localStorage.setItem("token", values.username);
+                        navigate("/dashboard");
+                      }}
+                    >
+                      sign in
+                    </MDButton>
+                  </MDBox>
+                  <MDBox mt={3} mb={1} textAlign="center">
+                    <MDTypography variant="button" color="text">
+                      Don&apos;t have an account?{" "}
+                      <MDTypography
+                        component={Link}
+                        to="/authentication/sign-up"
+                        variant="button"
+                        color="info"
+                        fontWeight="medium"
+                        textGradient
+                      >
+                        Sign up
+                      </MDTypography>
+                    </MDTypography>
+                  </MDBox>
+                </MDBox>
+              </MDBox>
+            );
+          }}
+        </Formik>
       </Card>
     </BasicLayout>
   );

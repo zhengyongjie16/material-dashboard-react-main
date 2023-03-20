@@ -12,9 +12,6 @@ import { useEffect, useMemo, useState } from "react";
 import createCache from "@emotion/cache";
 import Sidenav from "examples/Sidenav";
 
-// Material Dashboard 2 React routes
-import routes from "routes";
-
 // Images
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
@@ -27,6 +24,7 @@ import themeRTL from "assets/theme/theme-rtl";
 
 // RTL plugins
 import rtlPlugin from "stylis-plugin-rtl";
+import sideRouters from "../../sideRouters";
 
 // eslint-disable-next-line react/prop-types
 function LayoutsRtl({ children }) {
@@ -117,8 +115,8 @@ function LayoutsRtl({ children }) {
             <Sidenav
               color={sidenavColor}
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName="Material Dashboard 2"
-              routes={routes}
+              brandName="Matrix"
+              routes={sideRouters}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
             />
