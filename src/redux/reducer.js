@@ -1,7 +1,9 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import { testApi } from "./services/test";
+import { moviesApi } from "./services/moviesDatabase";
+import { weatherApi } from "./services/weather";
 
 export const createRootReducer = () =>
   combineReducers({
-    [testApi.reducerPath]: testApi.reducer,
+    [weatherApi.reducerPath]: weatherApi.reducer,
+    [moviesApi.reducerPath]: moviesApi.reducer,
   });

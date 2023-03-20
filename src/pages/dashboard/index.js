@@ -34,9 +34,43 @@ import reportsLineChartData from "pages/dashboard/data/reportsLineChartData";
 // Dashboard components
 import Projects from "pages/dashboard/components/Projects";
 import OrdersOverview from "pages/dashboard/components/OrdersOverview";
+import { useEffect } from "react";
+import { useGetWeatherMutation } from "../../redux/services/weather/weather";
+import { useGetMoviesMutation } from "../../redux/services/moviesDatabase/moviesDatabase";
+import { Chat } from "@mui/icons-material";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
+  const [getWeather] = useGetWeatherMutation();
+  const [getMovies] = useGetMoviesMutation();
+
+  useEffect(() => {
+    getWeather({
+      params: {
+        aggregateHours: "24",
+        location: "Washington,DC,USA",
+        contentType: "csv",
+        unitGroup: "us",
+        shortColumnNames: "0",
+      },
+    })
+      .unwrap()
+      .then((res) => {
+        console.log("res", res);
+      })
+      .catch(console.error);
+  }, [getWeather]);
+
+  useEffect(() => {
+    getMovies({
+      params: { idsList: "tt0001702,tt0001856,tt0001856" },
+    })
+      .unwrap()
+      .then((res) => {
+        console.log("res", res);
+      })
+      .catch(console.error);
+  }, [getMovies]);
 
   return (
     <DashboardLayout>

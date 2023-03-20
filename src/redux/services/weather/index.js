@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const testApi = createApi({
-  reducerPath: "testApi",
+export const weatherApi = createApi({
+  reducerPath: "weatherApi",
   baseQuery: fetchBaseQuery({
-    //baseUrl: "http://",
+    baseUrl: "https://",
   }),
   endpoints: () => ({}),
 });
