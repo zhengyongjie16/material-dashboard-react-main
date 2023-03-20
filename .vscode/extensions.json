@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "naumovs.color-highlight",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "sonarsource.sonarlint-vscode",
+    "SonarSource.sonarlint-vscode"
+  ]
+}

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import queryMiddlewareList from "middleware";
+import { queryMiddlewareList } from "./middleware";
 import createRootReducer from "./reducer";
 
 export const store = configureStore({
@@ -9,4 +9,3 @@ export const store = configureStore({
 });
 
 setupListeners(store.dispatch);
-export default store;
