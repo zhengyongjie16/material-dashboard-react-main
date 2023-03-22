@@ -22,7 +22,7 @@ import MDTypography from "components/MDTypography";
 
 // Images
 
-export default function data(booksList) {
+function getNominatedBooksList(booksList) {
   const Books = ({ image, name, id }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" />
@@ -83,7 +83,7 @@ export default function data(booksList) {
     }) || [];
 
   return {
-    booksColumns: [
+    columns: [
       { Header: "books name", accessor: "booksName", width: "45%", align: "left" },
       { Header: "author", accessor: "author", align: "left" },
       { Header: "url", accessor: "url", align: "center" },
@@ -91,6 +91,81 @@ export default function data(booksList) {
       { Header: "action", accessor: "action", align: "center" },
     ],
 
-    booksRows: booksRender,
+    rows: booksRender,
   };
 }
+
+function getSearchBooksList(booksList) {
+  const Books = ({ image, name, id }) => (
+    <MDBox display="flex" alignItems="center" lineHeight={1}>
+      <MDAvatar src={image} name={name} size="sm" />
+      <MDBox ml={2} lineHeight={1}>
+        <MDTypography display="block" variant="button" fontWeight="medium">
+          {name}
+        </MDTypography>
+        <MDTypography variant="caption">{`ID : ${id}`}</MDTypography>
+      </MDBox>
+    </MDBox>
+  );
+
+  const Author = ({ title, description }) => (
+    <MDBox lineHeight={1} textAlign="left">
+      <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
+        {title}
+      </MDTypography>
+      <MDTypography variant="caption">{description}</MDTypography>
+    </MDBox>
+  );
+
+  const booksRender =
+    booksList?.map((r) => {
+      return {
+        booksName: <Books image={r.cover} name={r.name} id={r.book_id} />,
+        author: <Author title="Manager" description={r.authors[0]} />,
+        url: (
+          <MDTypography
+            component="a"
+            href="#"
+            variant="caption"
+            color="info"
+            fontWeight="medium"
+            onClick={() => {
+              window.open(r.url);
+            }}
+          >
+            Details link
+          </MDTypography>
+        ),
+        rating: (
+          <MDTypography
+            component="a"
+            href="#"
+            variant="caption"
+            color="success"
+            fontWeight="medium"
+          >
+            {r.rating}
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </MDTypography>
+        ),
+      };
+    }) || [];
+
+  return {
+    columns: [
+      { Header: "books name", accessor: "booksName", width: "45%", align: "left" },
+      { Header: "author", accessor: "author", align: "left" },
+      { Header: "url", accessor: "url", align: "center" },
+      { Header: "rating", accessor: "rating", align: "center" },
+      { Header: "action", accessor: "action", align: "center" },
+    ],
+
+    rows: booksRender,
+  };
+}
+
+export { getNominatedBooksList, getSearchBooksList };
