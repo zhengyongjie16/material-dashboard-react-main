@@ -59,7 +59,7 @@ const NominatedBooks = ({ searchBooksByName, getNominatedBooks, getAwardedBooksO
     })
       .unwrap()
       .then((res) => {
-        setType(2);
+        setType(3);
         setBooksList(res);
       })
       .catch(console.error);
