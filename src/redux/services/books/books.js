@@ -28,8 +28,26 @@ const injectedRtkApi = booksApi.injectEndpoints({
         };
       },
     }),
+
+    // 3
+    getAwardedBooksOfYear: builder.mutation({
+      query: ({ year }) => {
+        return {
+          method: "GET",
+          url: `/top/${year}`,
+          headers: {
+            "X-RapidAPI-Key": "df9b2b7a64msh4330bf62623b01ap18f674jsnf4e7386c953c",
+            "X-RapidAPI-Host": "hapi-books.p.rapidapi.com",
+          },
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetNominatedBooksQuery, useSearchBooksByNameMutation } = injectedRtkApi;
+export const {
+  useGetNominatedBooksQuery,
+  useSearchBooksByNameMutation,
+  useGetAwardedBooksOfYearMutation,
+} = injectedRtkApi;
 export default injectedRtkApi;

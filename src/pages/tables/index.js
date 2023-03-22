@@ -30,11 +30,11 @@ import {
   useGetNominatedBooksQuery,
   useSearchBooksByNameMutation,
 } from "../../redux/services/books/books";
-import NominatedBooks from "./NominatedBooks";
+import BooksInformation from "./BooksInformation";
 import ProjectsTable from "./ProjectsTable";
 
 function Tables() {
-  const { data: booskListInYear } = useGetNominatedBooksQuery({
+  const { data: nominatedBooskListInYear } = useGetNominatedBooksQuery({
     genre: "romance",
     year: 2020,
   });
@@ -46,7 +46,10 @@ function Tables() {
       <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
-          <NominatedBooks searchBooksByName={searchBooksByName} booskListInYear={booskListInYear} />
+          <BooksInformation
+            searchBooksByName={searchBooksByName}
+            nominatedBooskListInYear={nominatedBooskListInYear}
+          />
           <ProjectsTable columns={pColumns} rows={pRows} />
         </Grid>
       </MDBox>
