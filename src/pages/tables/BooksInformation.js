@@ -4,10 +4,19 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import SearchInput from "components/SearchInput";
 import DataTable from "examples/Tables/DataTable";
-import { getBooksListMutation, getNominatedBooksList } from "pages/tables/data/booksList";
+import {
+  getAwardedBooksOfYearList,
+  getNominatedBooksList,
+  searchBooksByNameList,
+} from "pages/tables/data/booksList";
 import { useEffect, useMemo, useState } from "react";
 
-const NominatedBooks = ({ searchBooksByName, getNominatedBooks, getAwardedBooksOfYear }) => {
+const NominatedBooks = ({
+  searchBooksByName,
+  getNominatedBooks,
+  getAwardedBooksOfYear,
+  getPopularBooks,
+}) => {
   const [menu, setMenu] = useState(null);
   const [booksList, setBooksList] = useState(null);
   const [type, setType] = useState(1);
@@ -40,18 +49,40 @@ const NominatedBooks = ({ searchBooksByName, getNominatedBooks, getAwardedBooksO
           setMenu(null);
         })
         .catch(console.error);
-  }, [getAwardedBooksOfYear, getNominatedBooks, type]);
+
+    type === 3 &&
+      getPopularBooks({
+        year: 2022,
+      })
+        .unwrap()
+        .then((res) => {
+          setBooksList(res);
+          setTabelTitles("Top 15 most popular books in a Month of an Year");
+          setMenu(null);
+        })
+        .catch(console.error);
+  }, [getAwardedBooksOfYear, getNominatedBooks, getPopularBooks, type]);
 
   const { columns, rows } = useMemo(() => {
     if (booksList) {
-      return type === 1 ? getNominatedBooksList(booksList) : getBooksListMutation(booksList);
+      switch (type) {
+        case 1:
+          return getNominatedBooksList(booksList);
+        case 2:
+          return getAwardedBooksOfYearList(booksList);
+        case 4:
+          return searchBooksByNameList(booksList);
+        default:
+          return getNominatedBooksList(booksList);
+      }
     } else {
       return {
         columns: [],
         rows: [],
       };
     }
-  }, [booksList, type]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [booksList]);
 
   const onSearch = (value) => {
     searchBooksByName({
@@ -59,7 +90,7 @@ const NominatedBooks = ({ searchBooksByName, getNominatedBooks, getAwardedBooksO
     })
       .unwrap()
       .then((res) => {
-        setType(3);
+        setType(4);
         setBooksList(res);
       })
       .catch(console.error);
@@ -82,6 +113,9 @@ const NominatedBooks = ({ searchBooksByName, getNominatedBooks, getAwardedBooksO
     >
       <MenuItem onClick={() => setType(1)}>Nominated Books for a Genre in a Year</MenuItem>
       <MenuItem onClick={() => setType(2)}>Awarded Books of a Year</MenuItem>
+      <MenuItem onClick={() => setType(3)}>
+        Top 15 most popular books in a Month of an Year
+      </MenuItem>
     </Menu>
   );
 

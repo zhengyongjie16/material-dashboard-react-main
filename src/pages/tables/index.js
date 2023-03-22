@@ -29,6 +29,7 @@ import projectsTableData from "pages/tables/data/projectsTableData";
 import {
   useGetAwardedBooksOfYearMutation,
   useGetNominatedBooksMutation,
+  useGetPopularBooksMutation,
   useSearchBooksByNameMutation,
 } from "../../redux/services/books/books";
 import BooksInformation from "./BooksInformation";
@@ -38,6 +39,7 @@ function Tables() {
   const [getNominatedBooks] = useGetNominatedBooksMutation();
   const [searchBooksByName] = useSearchBooksByNameMutation();
   const [getAwardedBooksOfYear] = useGetAwardedBooksOfYearMutation();
+  const [getPopularBooks] = useGetPopularBooksMutation();
   const { columns: pColumns, rows: pRows } = projectsTableData();
 
   return (
@@ -49,6 +51,7 @@ function Tables() {
             searchBooksByName={searchBooksByName}
             getNominatedBooks={getNominatedBooks}
             getAwardedBooksOfYear={getAwardedBooksOfYear}
+            getPopularBooks={getPopularBooks}
           />
           <ProjectsTable columns={pColumns} rows={pRows} />
         </Grid>
