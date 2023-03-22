@@ -2,6 +2,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
+import PropTypes from "prop-types";
 import { useState } from "react";
 
 function SearchInput({ placeholder, inputProps, onSearch }) {
@@ -29,5 +30,17 @@ function SearchInput({ placeholder, inputProps, onSearch }) {
     </Paper>
   );
 }
+
+SearchInput.propTypes = {
+  placeholder: PropTypes.string,
+  inputProps: PropTypes.object,
+  onSearch: PropTypes.func,
+};
+
+SearchInput.defaultProps = {
+  placeholder: "",
+  inputProps: {},
+  onSearch: () => console.log("search"),
+};
 
 export default SearchInput;
