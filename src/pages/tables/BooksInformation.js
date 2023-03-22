@@ -5,38 +5,53 @@ import MDTypography from "components/MDTypography";
 import SearchInput from "components/SearchInput";
 import DataTable from "examples/Tables/DataTable";
 import { getBooksListMutation, getNominatedBooksList } from "pages/tables/data/booksList";
-import { useMemo, useState } from "react";
-import { useGetAwardedBooksOfYearMutation } from "redux/services/books/books";
+import { useEffect, useMemo, useState } from "react";
 
-const NominatedBooks = ({ searchBooksByName, nominatedBooskListInYear }) => {
-  const [getAwardedBooksOfYear] = useGetAwardedBooksOfYearMutation();
+const NominatedBooks = ({ searchBooksByName, getNominatedBooks, getAwardedBooksOfYear }) => {
   const [menu, setMenu] = useState(null);
-  const [booksList, setBooksList] = useState();
+  const [booksList, setBooksList] = useState(null);
+  const [type, setType] = useState(1);
 
-  const tabelTitlesList = ["Nominated Books for a Genre in a Year", "Awarded Books of a Year"];
-  const [tabelTitles, setTabelTitles] = useState(tabelTitlesList[0]);
+  const [tabelTitles, setTabelTitles] = useState("Nominated Books for a Genre in a Year");
 
   const openMenu = ({ currentTarget }) => setMenu(currentTarget);
-  const getNewList = () => {
-    getAwardedBooksOfYear({
-      year: 2021,
-    })
-      .unwrap()
-      .then((res) => {
-        setBooksList(res);
-        setTabelTitles(tabelTitlesList[1]);
-        setMenu(null);
+  useEffect(() => {
+    type === 1 &&
+      getNominatedBooks({
+        genre: "romance",
+        year: 2020,
       })
-      .catch(console.error);
-  };
+        .unwrap()
+        .then((res) => {
+          setBooksList(res);
+          setTabelTitles("Nominated Books for a Genre in a Year");
+          setMenu(null);
+        })
+        .catch(console.error);
+
+    type === 2 &&
+      getAwardedBooksOfYear({
+        year: 2021,
+      })
+        .unwrap()
+        .then((res) => {
+          setBooksList(res);
+          setTabelTitles("Awarded Books of a Year");
+          setMenu(null);
+        })
+        .catch(console.error);
+  }, [getAwardedBooksOfYear, getNominatedBooks, type]);
 
   const { columns, rows } = useMemo(() => {
     if (booksList) {
-      return getBooksListMutation(booksList);
+      return type === 1 ? getNominatedBooksList(booksList) : getBooksListMutation(booksList);
     } else {
-      return getNominatedBooksList(nominatedBooskListInYear);
+      return {
+        columns: [],
+        rows: [],
+      };
     }
-  }, [nominatedBooskListInYear, booksList]);
+  }, [booksList, type]);
 
   const onSearch = (value) => {
     searchBooksByName({
@@ -44,6 +59,7 @@ const NominatedBooks = ({ searchBooksByName, nominatedBooskListInYear }) => {
     })
       .unwrap()
       .then((res) => {
+        setType(2);
         setBooksList(res);
       })
       .catch(console.error);
@@ -64,7 +80,8 @@ const NominatedBooks = ({ searchBooksByName, nominatedBooskListInYear }) => {
       open={Boolean(menu)}
       onClose={() => setMenu(null)}
     >
-      <MenuItem onClick={getNewList}>Awarded Books of a Year</MenuItem>
+      <MenuItem onClick={() => setType(1)}>Nominated Books for a Genre in a Year</MenuItem>
+      <MenuItem onClick={() => setType(2)}>Awarded Books of a Year</MenuItem>
     </Menu>
   );
 

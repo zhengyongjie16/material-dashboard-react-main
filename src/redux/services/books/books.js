@@ -3,7 +3,7 @@ import { booksApi } from ".";
 const injectedRtkApi = booksApi.injectEndpoints({
   endpoints: (builder) => ({
     // 1
-    getNominatedBooks: builder.query({
+    getNominatedBooks: builder.mutation({
       query: ({ genre, year }) => ({
         method: "GET",
         url: `/nominees/${genre}/${year}`,
@@ -46,7 +46,7 @@ const injectedRtkApi = booksApi.injectEndpoints({
 });
 
 export const {
-  useGetNominatedBooksQuery,
+  useGetNominatedBooksMutation,
   useSearchBooksByNameMutation,
   useGetAwardedBooksOfYearMutation,
 } = injectedRtkApi;

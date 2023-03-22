@@ -161,7 +161,7 @@ function getBooksListMutation(booksList) {
           }
         : {
             booksName: <Books image={r.cover} name={r.name} id={r.book_id} />,
-            author: <Author title="Manager" description={r.authors[0]} />,
+            author: <Author title="Manager" description={r.authors?.[0]} />,
             url: (
               <MDTypography
                 component="a"

@@ -27,18 +27,17 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // Data
 import projectsTableData from "pages/tables/data/projectsTableData";
 import {
-  useGetNominatedBooksQuery,
+  useGetAwardedBooksOfYearMutation,
+  useGetNominatedBooksMutation,
   useSearchBooksByNameMutation,
 } from "../../redux/services/books/books";
 import BooksInformation from "./BooksInformation";
 import ProjectsTable from "./ProjectsTable";
 
 function Tables() {
-  const { data: nominatedBooskListInYear } = useGetNominatedBooksQuery({
-    genre: "romance",
-    year: 2020,
-  });
+  const [getNominatedBooks] = useGetNominatedBooksMutation();
   const [searchBooksByName] = useSearchBooksByNameMutation();
+  const [getAwardedBooksOfYear] = useGetAwardedBooksOfYearMutation();
   const { columns: pColumns, rows: pRows } = projectsTableData();
 
   return (
@@ -48,7 +47,8 @@ function Tables() {
         <Grid container spacing={6}>
           <BooksInformation
             searchBooksByName={searchBooksByName}
-            nominatedBooskListInYear={nominatedBooskListInYear}
+            getNominatedBooks={getNominatedBooks}
+            getAwardedBooksOfYear={getAwardedBooksOfYear}
           />
           <ProjectsTable columns={pColumns} rows={pRows} />
         </Grid>
