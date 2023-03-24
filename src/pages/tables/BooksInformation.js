@@ -7,6 +7,7 @@ import DataTable from "examples/Tables/DataTable";
 import {
   getAwardedBooksOfYearList,
   getNominatedBooksList,
+  getPopularBooksList,
   searchBooksByNameList,
 } from "pages/tables/data/booksList";
 import { useEffect, useMemo, useState } from "react";
@@ -70,6 +71,8 @@ const NominatedBooks = ({
           return getNominatedBooksList(booksList);
         case 2:
           return getAwardedBooksOfYearList(booksList);
+        case 3:
+          return getPopularBooksList(booksList);
         case 4:
           return searchBooksByNameList(booksList);
         default:

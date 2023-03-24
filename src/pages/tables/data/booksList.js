@@ -230,4 +230,78 @@ function searchBooksByNameList(booksList) {
   };
 }
 
-export { getNominatedBooksList, getAwardedBooksOfYearList, searchBooksByNameList };
+function getPopularBooksList(booksList) {
+  const Books = ({ image, name, id }) => (
+    <MDBox display="flex" alignItems="center" lineHeight={1}>
+      <MDAvatar src={image} name={name} size="sm" />
+      <MDBox ml={2} lineHeight={1}>
+        <MDTypography display="block" variant="button" fontWeight="medium">
+          {name}
+        </MDTypography>
+        <MDTypography variant="caption">{`ID : ${id}`}</MDTypography>
+      </MDBox>
+    </MDBox>
+  );
+
+  const booksRender =
+    booksList?.map((r) => {
+      return {
+        booksName: <Books image={r.cover} name={r.name} id={r.book_id} />,
+        url: (
+          <MDTypography
+            component="a"
+            href="#"
+            variant="caption"
+            color="info"
+            fontWeight="medium"
+            onClick={() => {
+              window.open(r.url);
+            }}
+          >
+            Details link
+          </MDTypography>
+        ),
+        position: (
+          <MDTypography component="a" href="#" variant="caption" color="error" fontWeight="medium">
+            {r.position}
+          </MDTypography>
+        ),
+        rating: (
+          <MDTypography
+            component="a"
+            href="#"
+            variant="caption"
+            color="success"
+            fontWeight="medium"
+          >
+            {r.rating}
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </MDTypography>
+        ),
+      };
+    }) || [];
+
+  return {
+    columns: [
+      { Header: "books name", accessor: "booksName", width: "45%", align: "left" },
+      { Header: "author", accessor: "author", align: "left" },
+      { Header: "url", accessor: "url", align: "center" },
+      { Header: "tops", accessor: "position", align: "center" },
+      { Header: "rating", accessor: "rating", align: "center" },
+      { Header: "action", accessor: "action", align: "center" },
+    ],
+
+    rows: booksRender,
+  };
+}
+
+export {
+  getNominatedBooksList,
+  getAwardedBooksOfYearList,
+  searchBooksByNameList,
+  getPopularBooksList,
+};
